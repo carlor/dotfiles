@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# summon_window - bspwm addon
+#
+# Usage: summon_window QUERY
+#
+# Shows a dmenu of windows matching QUERY, and moves the selected window to 
+# the current desktop and monitor.
+#
+# Example: summon_window .window.hidden
+
+WINS=$(bspc query -N -n $1)
+ST=$(xtitle $WINS | dmenu -i -l 10)
+
+for X in $WINS; do
+  if [[ $ST == $(xtitle $X) ]]; then
+    bspc node $X -g hidden=off -d $(bspc query -D --desktop focused) -m $(bspc wuery -M --monitor focused)
+    exit
+  fi
+done
+

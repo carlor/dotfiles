@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# curwincwd - prints CWD of the currently focused window
+
+attempt1() {
+  PRP=$(whoami)@$(hostname)
+  xdotool getwindowfocus getwindowname \
+  | sed -n "/$PRP:.*/ !d; s/$PRP:\(.*\)/\1/; p"
+}
+
+AT1=$(attempt1)
+if [[ -z $AT1 ]]
+then
+  # fallback attempt: requires you add this to .profile, .bashrc, etc:
+  # export PROMPT_COMMAND="pwd > $HOME/.mrwd; $PROMPT_COMMAND"
+  cat $HOME/.mrwd
+else
+  # does ~ expansion et al
+  eval AT1_EXP=$AT1
+  echo $AT1_EXP
+fi
+
+

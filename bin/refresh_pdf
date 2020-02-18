@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# refresh_pdf - opens or refreshes window with the given pdf file
+
+WIN_ID=$(wmctrl -l | grep $(basename $1) | awk "{print \$1}")
+if [[ $WIN_ID == "" ]]
+then
+  mupdf $1 &
+else
+  xdotool key --window $WIN_ID r
+fi
+

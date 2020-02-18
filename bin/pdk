@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# pdk - auto-runs pandoc and refreshes pdf
+#
+# Usage: pdk INPUT OUTPUT [EXTRA]
+# Watches for changes to INPUT, runs pandoc, runs refresh_pdf if applicable.
+
+INP=$1
+shift
+OTP=$1
+shift
+EXTRA=$@
+
+if [[ $OTP == *.pdf ]]
+then
+  EXTRA="$EXTRA && refresh_pdf $OTP"
+fi
+
+echo "extra: ($EXTRA)"
+
+echo "pdk $INP -> $OTP"
+ls $INP | entr -ns "pandoc $INP -o $OTP $EXTRA 2>&1"
+

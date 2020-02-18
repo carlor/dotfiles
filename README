@@ -1,0 +1,6 @@
+Miscellaneous utilities you might find useful.
+
+- `bin/`: tiny scripts
+  - `curwincwd`: get current working directory of the focused window
+  - `summon_window`: select window from a list and summon to this desktop
+
